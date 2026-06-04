@@ -28,7 +28,7 @@ export default function App() {
 
   return (
     <main className="app-shell">
-      <section className="hero">
+      <header className="hero">
         <div>
           <p className="eyebrow">TFG Interactive Defence</p>
           <h1>VHIO136 antigen-recognition map</h1>
@@ -37,7 +37,7 @@ export default function App() {
             and candidate-tile-level TYR-associated recognition.
           </p>
         </div>
-      </section>
+      </header>
 
       <section className="workspace">
         <GlobalMap
@@ -47,9 +47,28 @@ export default function App() {
         />
 
         <DetailPanel node={selectedNode}>
-          <ActiveComponent />
+          <div className="detail-transition" key={selectedNodeId}>
+            <ActiveComponent />
+          </div>
         </DetailPanel>
       </section>
+
+      <nav className="workflow-rail" aria-label="Workflow sections">
+        {workflowNodes.map((node) => (
+          <button
+            key={node.id}
+            className={
+              selectedNodeId === node.id ? "rail-step active" : "rail-step"
+            }
+            type="button"
+            aria-current={selectedNodeId === node.id ? "step" : undefined}
+            onClick={() => setSelectedNodeId(node.id)}
+          >
+            <span>{node.number}</span>
+            {node.shortTitle}
+          </button>
+        ))}
+      </nav>
     </main>
   );
 }
